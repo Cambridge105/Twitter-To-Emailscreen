@@ -29,10 +29,10 @@ You can get credentials for this from Steve.
 The final file you need is lastTweetId.py 
 This stores the IDs of the last tweets, which ensures we don't duplicate tweets between runs. The format of the file is:
 
-   LAST_ID_SKY = 123456789123456789
-   LAST_ID_105 = 123456789123456789
-   LAST_ID_105_MENTIONS = 123456789123456789
-   LAST_ID_IRN = 123456789123456789
+    LAST_ID_SKY = 123456789123456789
+    LAST_ID_105 = 123456789123456789
+    LAST_ID_105_MENTIONS = 123456789123456789
+    LAST_ID_IRN = 123456789123456789
    
 You can look at tweet URLs on the twitter website to work out where you want to start from if you need to recreate this.
 
