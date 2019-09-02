@@ -2,11 +2,14 @@
 Publish tweets to the studio email screen
 
 ## Installation instructions
+
+### 1. Install python-twitter dependency
 First off, you need to install the python-twitter library  
 `pip install python-twitter`
 
-Then, clone this repo to pick up the main python routine
+Then, clone this repo to pick up the main python routine (getTweets.py)
 
+### 2. Create config files containing secrets
 Then, you'll need the two config files t.py and e.py. These contain secrets for Twitter and Email integration respectively. 
 Should you need to recreate them, the format of t.py is:
 
@@ -26,6 +29,7 @@ The format of e.py is:
     
 You can get credentials for this from Steve.
 
+### 3. Create config file containing the last tweets that were already sent to the screen
 The final file you need is lastTweetId.py 
 This stores the IDs of the last tweets, which ensures we don't duplicate tweets between runs. The format of the file is:
 
@@ -36,6 +40,10 @@ This stores the IDs of the last tweets, which ensures we don't duplicate tweets 
    
 You can look at tweet URLs on the twitter website to work out where you want to start from if you need to recreate this.
 
+### 4. Update the file paths in the code
+In getTweets.py you will need to update the path to the place where the file is running, both in the sys.path.append() line near the top and the file write line near the bottom.
+
+### 5. Create a cronjob
 Finally, set it to run in a cronjob. Beware - our not-for-profit plan allows us 15 API calls per 15 minutes it appears. Each run of the file is 4 API calls, so we shouldn't run it more than every 5 minutes. 
 `*/5 * * * * /usr/bin/python /path/to/getTweets.py`
 The script prints emailed tweets to stdout for debugging, so you may wish to redirect that to /dev/null 
