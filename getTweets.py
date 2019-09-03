@@ -20,7 +20,7 @@ from lastTweetId import LAST_ID_SKY, LAST_ID_105, LAST_ID_IRN, LAST_ID_105_MENTI
 
 def formatEmail(msgSubj, msgText):
     msg = "From: Twitter <twitter@cambridge105.co.uk>\r\nTo: <studio@cambridge105.co.uk>\r\nSubject: " + msgSubj + "\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: inline\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" + msgText
-    msg = re.sub(r'^https?:\/\/\S* ', '', msg)
+    msg = re.sub(ur'https?:\/\/\S* ', u'', msg)
     return msg.encode('latin-1',errors='ignore')
 
 last_id_sky = LAST_ID_SKY
@@ -55,7 +55,7 @@ for s in statuses:
 mentions = api.GetMentions(since_id=LAST_ID_105_MENTIONS)
 for m in mentions:
    if m.user.screen_name not in blacklisted_tweeters:
-     print m.full_text + ' (ID:' + str(m.id) + ')'
+     #print m.full_text + ' (ID:' + str(m.id) + ')'
      msg = formatEmail('Tweet from ' + m.user.name + ' (@' + m.user.screen_name + ') ', m.full_text)
      emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
      if (last_id_105_mentions == LAST_ID_105_MENTIONS):
