@@ -19,9 +19,9 @@ emailserv.login(EMAIL_USER, EMAIL_PASSWORD)
 from lastTweetId import LAST_ID_SKY, LAST_ID_105, LAST_ID_IRN, LAST_ID_105_MENTIONS
 
 def formatEmail(msgSubj, msgText):
-    msg = "From: Twitter <twitter@cambridge105.co.uk>\r\nTo: <studio@cambridge105.co.uk>\r\nSubject: " + msgSubj + "\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: inline\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" + msgText.encode("utf-8")
+    msg = "From: Twitter <twitter@cambridge105.co.uk>\r\nTo: <studio@cambridge105.co.uk>\r\nSubject: " + msgSubj + "\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: inline\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" + msgText
     msg = re.sub(r'^https?:\/\/\S* ', '', msg)
-    return msg.encode('ascii',errors='ignore')
+    return msg.encode('latin-1',errors='ignore')
 
 last_id_sky = LAST_ID_SKY
 last_id_105 = LAST_ID_105
@@ -29,9 +29,10 @@ last_id_105_mentions = LAST_ID_105_MENTIONS
 last_id_irn = LAST_ID_IRN
 ids_changed = 0
 
+blacklisted_tweeters = ['Lord_Drainlid']
 
 # Get tweets from Sky News Break
-statuses = api.GetUserTimeline(87416722,since_id=LAST_ID_SKY,exclude_replies=True)
+statuses = api.GetUserTimeline(87416722,since_id=LAST_ID_SKY,exclude_replies=False)
 for s in statuses:
    print s.full_text + ' (ID:' + str(s.id) + ')'
    msg = formatEmail('Breaking news from @SkyNewsBreak', s.full_text)
@@ -53,12 +54,13 @@ for s in statuses:
 # Get mentions for Cambridge 105
 mentions = api.GetMentions(since_id=LAST_ID_105_MENTIONS)
 for m in mentions:
-   print m.full_text + ' (ID:' + str(m.id) + ')'
-   msg = formatEmail('Tweet from ' + m.user.name + ' (@' + m.user.screen_name + ')', m.full_text)
-   emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
-   if (last_id_105_mentions == LAST_ID_105_MENTIONS):
-     last_id_105_mentions = m.id
-     ids_changed = 1
+   if m.user.screen_name not in blacklisted_tweeters:
+     print m.full_text + ' (ID:' + str(m.id) + ')'
+     msg = formatEmail('Tweet from ' + m.user.name + ' (@' + m.user.screen_name + ') ', m.full_text)
+     emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
+     if (last_id_105_mentions == LAST_ID_105_MENTIONS):
+       last_id_105_mentions = m.id
+       ids_changed = 1
 
 # Get tweets from IRN
 statuses = api.GetUserTimeline(312059464,since_id=LAST_ID_IRN,exclude_replies=True)
