@@ -56,7 +56,7 @@ mentions = api.GetMentions(since_id=LAST_ID_105_MENTIONS)
 for m in mentions:
    if m.user.screen_name not in blacklisted_tweeters:
      #print m.full_text + ' (ID:' + str(m.id) + ')'
-     msg = formatEmail('Tweet from ' + m.user.name + ' (@' + m.user.screen_name + ') ', m.full_text)
+     msg = formatEmail('Tweet from ' + m.user.name + ' - @' + m.user.screen_name, m.full_text)
      emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
      if (last_id_105_mentions == LAST_ID_105_MENTIONS):
        last_id_105_mentions = m.id
