@@ -66,7 +66,7 @@ for m in mentions:
 statuses = api.GetUserTimeline(312059464,since_id=LAST_ID_IRN,exclude_replies=True)
 for s in statuses:
    #print s.full_text + ' (ID:' + str(s.id) + ')'
-   msg = formatEmail('News trail from @IRNRadioNews', s.full_text)
+   msg = formatEmail('News trail from Sky News Radio', s.full_text)
    emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
    if (last_id_irn == LAST_ID_IRN):
      last_id_irn = s.id
