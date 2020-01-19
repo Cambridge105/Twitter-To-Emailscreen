@@ -34,7 +34,7 @@ blacklisted_tweeters = ['Lord_Drainlid']
 # Get tweets from Sky News Break
 statuses = api.GetUserTimeline(87416722,since_id=LAST_ID_SKY,exclude_replies=False)
 for s in statuses:
-   print s.full_text + ' (ID:' + str(s.id) + ')'
+   #print s.full_text + ' (ID:' + str(s.id) + ')'
    msg = formatEmail('Breaking news from @SkyNewsBreak', s.full_text)
    emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
    if (last_id_sky == LAST_ID_SKY):
@@ -44,7 +44,7 @@ for s in statuses:
 # Get tweets & replies from Cambridge 105
 statuses = api.GetUserTimeline(95086990,since_id=LAST_ID_105,exclude_replies=False)
 for s in statuses:
-   print s.full_text + ' (ID:' + str(s.id) + ')'
+   #print s.full_text + ' (ID:' + str(s.id) + ')'
    msg = formatEmail('Tweet from @' + s.user.screen_name, s.full_text)
    emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
    if (last_id_105 == LAST_ID_105):
@@ -65,7 +65,7 @@ for m in mentions:
 # Get tweets from IRN
 statuses = api.GetUserTimeline(312059464,since_id=LAST_ID_IRN,exclude_replies=True)
 for s in statuses:
-   print s.full_text + ' (ID:' + str(s.id) + ')'
+   #print s.full_text + ' (ID:' + str(s.id) + ')'
    msg = formatEmail('News trail from @IRNRadioNews', s.full_text)
    emailserv.sendmail('twitter@cambridge105.co.uk','studio@cambridge105.co.uk',msg)
    if (last_id_irn == LAST_ID_IRN):
