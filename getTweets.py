@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys
-sys.path.append('/home/pi/105tweets/')
+sys.path.append('/home/dom/Twitter-To-Emailscreen/')
 
 import twitter
 from t import ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET
@@ -13,14 +13,14 @@ import smtplib
 from e import EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-emailserv = smtplib.SMTP_SSL(host=EMAIL_HOST, port=EMAIL_PORT)
+emailserv = smtplib.SMTP(host=EMAIL_HOST, port=EMAIL_PORT)
 emailserv.login(EMAIL_USER, EMAIL_PASSWORD)
 
 from lastTweetId import LAST_ID_SKY, LAST_ID_105, LAST_ID_IRN, LAST_ID_105_MENTIONS
 
 def formatEmail(msgSubj, msgText):
     msg = "From: Twitter <twitter@cambridge105.co.uk>\r\nTo: <studio@cambridge105.co.uk>\r\nSubject: " + msgSubj + "\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: inline\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" + msgText
-    msg = re.sub(ur'https?:\/\/\S* ', u'', msg)
+    msg = re.sub(r'https?:\/\/\S* ', '', msg)
     return msg.encode('latin-1',errors='ignore')
 
 last_id_sky = LAST_ID_SKY
@@ -76,6 +76,6 @@ for s in statuses:
 	 
 # Set the last updated IDs so the next run doesn't duplicate them
 if (ids_changed == 1):
-  f = open("/home/pi/105tweets/lastTweetId.py", "w")
+  f = open("/home/dom/Twitter-To-Emailscreen/lastTweetId.py", "w")
   f.write("LAST_ID_SKY = " + str(last_id_sky) + "\r\nLAST_ID_105 = " + str(last_id_105) + "\r\nLAST_ID_105_MENTIONS = " + str(last_id_105_mentions) + "\r\nLAST_ID_IRN = " + str(last_id_irn))
   f.close()
